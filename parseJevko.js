@@ -1,4 +1,4 @@
-export const parse = (str, {
+export const parseJevko = (str, {
   opener = '[',
   closer = ']',
   escaper = '`'
@@ -20,7 +20,7 @@ export const parse = (str, {
       if (c === escaper || c === opener || c === closer) {
         buffer += c
         isEscaped = false
-      } else throw Error(`Invalid escape at ${line}:${column}!`)
+      } else throw SyntaxError(`Invalid escape at ${line}:${column}!`)
     } else if (c === escaper) {isEscaped = true}
     else if (c === opener) {
       const jevko = {subjevkos: []}
@@ -31,14 +31,14 @@ export const parse = (str, {
     } else if (c === closer) {
       parent.suffix = buffer
       buffer = ''
-      if (parents.length < 1) throw Error(`Unexpected close at ${line}:${column}!`)
+      if (parents.length < 1) throw SyntaxError(`Unexpected close at ${line}:${column}!`)
       parent = parents.pop()
     } else {buffer += c}
   }
-  if (isEscaped || parents.length > 0) throw Error(`Unexpected end at ${line}:${column}!`)
+  if (isEscaped || parents.length > 0) throw SyntaxError(`Unexpected end at ${line}:${column}!`)
   parent.suffix = buffer
-  parent.open = opener
-  parent.close = closer
-  parent.escape = escaper
+  parent.opener = opener
+  parent.closer = closer
+  parent.escaper = escaper
   return parent
 }

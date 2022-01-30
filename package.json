@@ -1,1 +1,16 @@
-{"type": "module"}
+{
+  "type": "module",
+  "name": "parsejevko.js",
+  "version": "0.1.0",
+  "main": "mod.js",
+  "private": true,
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jevko/parsejevko.js.git"
+  },
+  "author": "Darius J Chuck",
+  "license": "MIT"
+}
