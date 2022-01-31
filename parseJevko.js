@@ -13,7 +13,7 @@ export const parseJevko = (str, {
       if (c === escaper || c === opener || c === closer) {
         buffer += c
         isEscaped = false
-      } else throw SyntaxError(`Invalid escape at ${line}:${column}!`)
+      } else throw SyntaxError(`Invalid digraph (${escaper}${c}) at ${line}:${column}!`)
     } else if (c === escaper) {
       isEscaped = true
     } else if (c === opener) {
@@ -25,7 +25,7 @@ export const parseJevko = (str, {
     } else if (c === closer) {
       parent.suffix = buffer
       buffer = ''
-      if (parents.length < 1) throw SyntaxError(`Unexpected close at ${line}:${column}!`)
+      if (parents.length < 1) throw SyntaxError(`Unexpected closer (${closer}) at ${line}:${column}!`)
       parent = parents.pop()
     } else {
       buffer += c
@@ -38,7 +38,8 @@ export const parseJevko = (str, {
       ++column
     }
   }
-  if (isEscaped || parents.length > 0) throw SyntaxError(`Unexpected end!`)
+  if (isEscaped) throw SyntaxError(`Unexpected end after escaper (${escaper})!`)
+  if (parents.length > 0) throw SyntaxError(`Unexpected end: missing ${parents.length} closer(s) (${closer})!`)
   parent.suffix = buffer
   parent.opener = opener
   parent.closer = closer
