@@ -25,3 +25,13 @@ console.assert(parsed.subjevkos.length === 5)
 console.assert(parsed.suffix === "")
 
 console.assert(parsed.subjevkos[2].jevko.subjevkos.some(({prefix}) => prefix.includes(" Kingdom ")))
+
+try {
+  parseJevko(`
+  this should crash [
+    with unexpected \`] at 5:1
+  ]
+]`)
+} catch (e) {
+  console.assert(e.message.includes('5:1'), e)
+}
