@@ -1,5 +1,7 @@
 # parsejevko.js
 
+[![](https://data.jsdelivr.com/v1/package/gh/jevko/parsejevko.js/badge)](https://www.jsdelivr.com/package/gh/jevko/parsejevko.js)
+
 A simple parser for Jevko in JavaScript.
 
 ## Installation
