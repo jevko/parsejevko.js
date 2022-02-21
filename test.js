@@ -1,6 +1,6 @@
 import {parseJevko} from './parseJevko.js'
 
-// todo
+import {assert} from './devDeps.js'
 
 const parsed = parseJevko(`Name [Horse]
 
@@ -21,17 +21,19 @@ Trinomial name [
 ] 
 Synonyms [at least 48 published]`)
 
-console.assert(parsed.subjevkos.length === 5)
-console.assert(parsed.suffix === "")
-
-console.assert(parsed.subjevkos[2].jevko.subjevkos.some(({prefix}) => prefix.includes(" Kingdom ")))
-
-try {
-  parseJevko(`
+Deno.test('parseJevko', () => {
+  assert(parsed.subjevkos.length === 5)
+  assert(parsed.suffix === "")
+  
+  assert(parsed.subjevkos[2].jevko.subjevkos.some(({prefix}) => prefix.includes(" Kingdom ")))
+  
+  try {
+    parseJevko(`
   this should crash [
     with unexpected \`] at 5:1
   ]
 ]`)
-} catch (e) {
-  console.assert(e.message.includes('5:1'), e)
-}
+  } catch (e) {
+    assert(e.message.includes('5:1'), e)
+  }
+})

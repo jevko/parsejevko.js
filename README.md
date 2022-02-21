@@ -9,7 +9,7 @@ A simple parser for Jevko in JavaScript.
 ### Node.js
 
 ```
-npm install jevko/parsejevko.js#semver:0.1.3
+npm install jevko/parsejevko.js#semver:0.1.4
 ```
 
 ### Deno and the browser
@@ -17,13 +17,13 @@ npm install jevko/parsejevko.js#semver:0.1.3
 Import from [jsDelivr](https://www.jsdelivr.com/):
 
 ```js
-import {parseJevko} from 'https://cdn.jsdelivr.net/gh/jevko/parsejevko.js@v0.1.3/mod.js'
+import {parseJevko} from 'https://cdn.jsdelivr.net/gh/jevko/parsejevko.js@v0.1.4/mod.js'
 ```
 
 ## Quickstart
 
 ```js
-import {parseJevko} from 'https://cdn.jsdelivr.net/gh/jevko/parsejevko.js@v0.1.3/mod.js'
+import {parseJevko} from 'https://cdn.jsdelivr.net/gh/jevko/parsejevko.js@v0.1.4/mod.js'
 
 parseJevko(`hello [world]`) 
 // -> {
