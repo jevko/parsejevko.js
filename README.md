@@ -74,3 +74,7 @@ Character = %x0-5a / %x5c / %x5e-5f / %x61-10ffff
 ```
 
 For details, see [specifications](https://github.com/jevko/specifications).
+
+## License
+
+[MIT](LICENSE)
