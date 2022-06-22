@@ -6,7 +6,7 @@ const parsed = parseJevko(`Name [Horse]
 
 Conservation status [Domesticated]
 Scientific classification [
-  Kingdom [Animalia]
+  \`[Kingdom\`] [Animalia]
   Phylum [Chordata]
   Class [Mammalia]
   Order [Perissodactyla]
@@ -25,7 +25,7 @@ Deno.test('parseJevko', () => {
   assert(parsed.subjevkos.length === 5)
   assert(parsed.suffix === "")
   
-  assert(parsed.subjevkos[2].jevko.subjevkos.some(({prefix}) => prefix.includes(" Kingdom ")))
+  assert(parsed.subjevkos[2].jevko.subjevkos.some(({prefix}) => prefix.includes(" [Kingdom] ")), JSON.stringify(parsed.subjevkos[2].jevko.subjevkos, null, 2))
   
   try {
     parseJevko(`
@@ -36,4 +36,9 @@ Deno.test('parseJevko', () => {
   } catch (e) {
     assert(e.message.includes('5:1'), e)
   }
+})
+
+Deno.test('slicing optimization', () => {
+  assert(parseJevko(`  \`\`\`\`aaa\`[bbb\`]\`]ccc\`\`  `).suffix === '  ``aaa[bbb]]ccc`  ')
+  assert(parseJevko(`  \`\`\`\`aaa\`[bbb\`]\`]ccc\`\`  []`).subjevkos[0].prefix === '  ``aaa[bbb]]ccc`  ')
 })
