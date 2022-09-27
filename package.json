@@ -3,7 +3,7 @@
   "name": "parsejevko.js",
   "version": "0.1.4",
   "main": "mod.js",
-  "files": ["mod.js"],
+  "files": ["mod.js", "parseJevko.js"],
   "private": true,
   "repository": {
     "type": "git",
