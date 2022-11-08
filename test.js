@@ -1,6 +1,7 @@
 import {parseJevko} from './parseJevko.js'
+import {parseJevkoWithHeredocs} from './parseJevkoWithHeredocs.js'
 
-import {assert} from './devDeps.js'
+import {assert, assertEquals} from './devDeps.js'
 
 const parsed = parseJevko(`Name [Horse]
 
@@ -41,4 +42,13 @@ Deno.test('parseJevko', () => {
 Deno.test('slicing optimization', () => {
   assert(parseJevko(`  \`\`\`\`aaa\`[bbb\`]\`]ccc\`\`  `).suffix === '  ``aaa[bbb]]ccc`  ')
   assert(parseJevko(`  \`\`\`\`aaa\`[bbb\`]\`]ccc\`\`  []`).subjevkos[0].prefix === '  ``aaa[bbb]]ccc`  ')
+})
+
+Deno.test('parseJevkoWithHeredocs', () => {
+  const parsed = parseJevkoWithHeredocs(`
+test \`/x/]]][[[\`\`\`///y/y/d/ddc/x/
+`)
+  const sub = parsed.subjevkos[0]
+  assertEquals(sub.prefix, '\ntest ')
+  assertEquals(sub.jevko.suffix, ']]][[[\`\`\`///y/y/d/ddc')
 })
