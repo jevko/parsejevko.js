@@ -51,4 +51,5 @@ test \`/x/]]][[[\`\`\`///y/y/d/ddc/x/
   const sub = parsed.subjevkos[0]
   assertEquals(sub.prefix, '\ntest ')
   assertEquals(sub.jevko.suffix, ']]][[[\`\`\`///y/y/d/ddc')
+  assertEquals(sub.jevko.tag, 'x')
 })

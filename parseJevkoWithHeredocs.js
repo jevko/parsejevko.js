@@ -1,3 +1,6 @@
+// todo: perhaps rename tag -> identifier/id
+// todo: find a better name for blocker and block mode
+// candidates: inliner, cutter, paster
 export const parseJevkoWithHeredocs = (str, {
   opener = '[',
   closer = ']',
@@ -32,9 +35,10 @@ export const parseJevkoWithHeredocs = (str, {
         if (found === tag) {
           const jevko = {
             subjevkos: [], 
-            suffix: str.slice(t, h - 1)
+            suffix: str.slice(t, h - 1),
+            tag
           }
-          parent.subjevkos.push({prefix, jevko, tag})
+          parent.subjevkos.push({prefix, jevko})
           prefix = ''
           h = i + 1
           tag = ''
@@ -69,7 +73,7 @@ export const parseJevkoWithHeredocs = (str, {
       ++column
     }
   }
-  // todo: only normal mode is fine here
+  // todo: better error msgs
   if (mode === 'escaped') throw SyntaxError(`Unexpected end after escaper (${escaper})!`)
   if (mode === 'tag') throw SyntaxError(`Unexpected end after blocker (${blocker})!`)
   if (mode === 'block') throw SyntaxError(`Unexpected end after blocker (${blocker})!`)
