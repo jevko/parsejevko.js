@@ -1,13 +1,15 @@
 // todo: perhaps rename tag -> identifier/id
-// todo: find a better name for blocker and block mode
-// candidates: inliner, cutter, paster
 export const parseJevkoWithHeredocs = (str, {
   opener = '[',
   closer = ']',
   escaper = '`',
-  blocker = '/',
+  quoter = "'",
 } = {}) => {
-  if (new Set([opener, closer, escaper, blocker]).size !== 4) throw Error('oops')
+  const delimiters = [opener, closer, escaper, quoter]
+  const delimiterSetSize = new Set(delimiters).size
+  if (delimiterSetSize !== delimiters.length) {
+    throw Error(`Delimiters must be unique! ${delimiters.length - delimiterSetSize} of them are identical:\n${delimiters.join('\n')}`)
+  }
 
   const parents = []
   let parent = {subjevkos: []}, prefix = '', h = 0, mode = 'normal'
@@ -18,19 +20,19 @@ export const parseJevkoWithHeredocs = (str, {
 
     if (mode === 'escaped') {
       if (c === escaper || c === opener || c === closer) mode = 'normal'
-      else if (c === blocker) {
+      else if (c === quoter) {
         mode = 'tag'
         t = i + 1
       } else throw SyntaxError(`Invalid digraph (${escaper}${c}) at ${line}:${column}!`)
     } else if (mode === 'tag') {
-      if (c === blocker) {
+      if (c === quoter) {
         tag = str.slice(t, i)
         h = i + 1
         t = h
         mode = 'block'
       }
     } else if (mode === 'block') {
-      if (c === blocker) {
+      if (c === quoter) {
         const found = str.slice(h, i)
         if (found === tag) {
           const jevko = {
@@ -75,13 +77,13 @@ export const parseJevkoWithHeredocs = (str, {
   }
   // todo: better error msgs
   if (mode === 'escaped') throw SyntaxError(`Unexpected end after escaper (${escaper})!`)
-  if (mode === 'tag') throw SyntaxError(`Unexpected end after blocker (${blocker})!`)
-  if (mode === 'block') throw SyntaxError(`Unexpected end after blocker (${blocker})!`)
+  if (mode === 'tag') throw SyntaxError(`Unexpected end after quoter (${quoter})!`)
+  if (mode === 'block') throw SyntaxError(`Unexpected end after quoter (${quoter})!`)
   if (parents.length > 0) throw SyntaxError(`Unexpected end: missing ${parents.length} closer(s) (${closer})!`)
   parent.suffix = prefix + str.slice(h)
   parent.opener = opener
   parent.closer = closer
   parent.escaper = escaper
-  parent.blocker = blocker
+  parent.quoter = quoter
   return parent
 }

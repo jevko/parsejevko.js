@@ -47,7 +47,7 @@ Deno.test('slicing optimization', () => {
 Deno.test('parseJevkoWithHeredocs', () => {
   const parsed = parseJevkoWithHeredocs(`
 test \`/x/]]][[[\`\`\`///y/y/d/ddc/x/
-`)
+`, {quoter: '/'})
   const sub = parsed.subjevkos[0]
   assertEquals(sub.prefix, '\ntest ')
   assertEquals(sub.jevko.suffix, ']]][[[\`\`\`///y/y/d/ddc')
