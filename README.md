@@ -1,3 +1,9 @@
+⚠️⚠️⚠️ DEPRECATED
+
+parsejevko.js is now deprecated in favor of [jevko.js](https://github.com/jevko/jevko.js)
+
+⚠️⚠️⚠️ DEPRECATED
+
 # parsejevko.js
 
 [![](https://data.jsdelivr.com/v1/package/gh/jevko/parsejevko.js/badge)](https://www.jsdelivr.com/package/gh/jevko/parsejevko.js)
